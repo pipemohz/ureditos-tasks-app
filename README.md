@@ -15,12 +15,13 @@ pip install -r requirements.txt
 
 You must create a .env file for project configuration. It must contain following variables:
 
+```
 ##################
 # Flask settings #
 ##################
 
 # Flask app secret key
-SECRET_KEY=U5MrSqJbV8Nlwn8Qu6JqDW9NJ9lSB9hN
+SECRET_KEY=your_app_secret_key
 
 #########################
 # API Ureditos settings #
@@ -49,8 +50,8 @@ API_MASIVAPP_PASSWORD=your_masivapp_password
 
 SMTP_HOST = smtp_server_domain
 SMTP_PORT = smtp_port
-SMTP_USERNAME = email_username
-SMTP_PASSWORD = email_password
+SMTP_USERNAME = your_email_username
+SMTP_PASSWORD = your_email_password
 
 # List of email recipients to send notifications.
 EMAIL_RECIPIENTS=mail1@example.com,mail2@example.com
@@ -67,7 +68,8 @@ DB_PASSWORD=database_password
 ##################
 # Azure settings #
 ##################
-AZURE_FILE_SHARE=azure_file_share_folder
+AZURE_FILE_SHARE=your_azure_file_share_folder
 AZURE_STORAGE_CONNECTION_STRING="your_azure_storage_connection_string"
 
+```
 
