@@ -1,0 +1,51 @@
+{% include "header.html" %}
+<script src="{{ url_for('static', filename='js/index.js')}}"></script>
+<div>
+    <div class="container px-4 py-5" id="featured-3">
+        <h2 class="pb-2 border-bottom">Tareas Ureditos</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" {% if not status %} style="opacity: 0.5;" {% endif %}>
+            <div class="feature col">
+                <h2>Inscribir en Moodle</h2>
+                <p>Ejecuta la inscripción de todos los asesores en cursos de universidad Reditos.</p>
+                <form action="{{ url_for('moodle') }}" method="post" class="app-form" onsubmit="disableForm(this)">
+                    <input type="submit" class="btn btn-primary" name="moodle" value="Ejecutar" {% if not status %} disabled {% endif %}>
+                    {% if tasks.moodle == 'done' %}
+                    <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                    {% else %}
+                    <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="feature col">
+                <h2>Notificación SMS</h2>
+                <p>Envia notificación por SMS a todos los asesores inscritos en cursos de universidad Reditos.</p>
+                <form action="{{ url_for('sms') }}" method="post" class="app-form" onsubmit="disableForm(this)">
+                    <input type="submit" class="btn btn-primary" name="sms" value="Ejecutar" {% if not status %} disabled {% endif %}>
+                    {% if tasks.sms == 'done' %}
+                    <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                    {% else %}
+                    <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="feature col">
+                <h2>Notificación por email</h2>
+                <p>Envia notificación por correo electrónico a todos los coordinadores por zona con el reporte global de asesores matriculados.</p>
+                <form action="{{ url_for('mail') }}" method="post" class="app-form" onsubmit="disableForm(this)">
+                    <input type="submit" class="btn btn-primary" name="mail" value="Ejecutar" {% if not status %} disabled {% endif %}>
+                    {% if tasks.email == 'done' %}
+                    <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                    {% else %}
+                    <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        {% if status %}
+            <h3 class="pb-2 status" style="color:green">Servidor ureditos activo</h3>
+        {% else %}
+            <h3 class="pb-2 status" style="color:red">Servidor ureditos inactivo</h3>
+        {% endif %}
+    </div>
+</div>
+{% include "footer.html" %}

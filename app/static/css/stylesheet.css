@@ -1,0 +1,13 @@
+.app-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.status{
+    text-align: center;
+}
+
+label.status{
+    font-size: 20px;   
+}
