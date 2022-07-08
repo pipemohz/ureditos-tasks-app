@@ -98,13 +98,12 @@ AZURE_STORAGE_CONNECTION_STRING="your_azure_storage_connection_string"
 ```
 
 ## Running tests
-### Open a terminal and check Azure Functions Core Tools is installed
-```
-func
-```
 ### Start Azure Function
 ```
 func start
 ```
-
+### Check the app is running on localhost
+```
+http://localhost:7071
+````
 

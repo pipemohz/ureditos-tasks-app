@@ -65,8 +65,7 @@ def enrolling_moodle():
     today = datetime.now()
 
     # Today's month
-    month = MONTHS.get(6)
-    # month = MONTHS.get(today.month)
+    month = MONTHS.get(today.month)
 
     # Definition of tempdir path.
     folder = tempfile.gettempdir()
@@ -76,8 +75,6 @@ def enrolling_moodle():
 
     # Make query to database
     query_results = query_database(query)
-
-    # logging.info(f"results: {query_results}")
 
     # Definition of csv and txt file paths.
     csv_log = join(folder, f'logMoodle{today.strftime("%Y-%m-%d-%H")}h.csv')
@@ -221,10 +218,7 @@ def send_email_notifications():
 
         with ThreadPoolExecutor(max_workers=6) as executor:
             futures = [executor.submit(
-                email_csv_report_writer, row, csv_log, month, today.year) for row in query_results]
-            # for future in concurrent.futures.as_completed(futures):
-            #     if future.result() is not None:
-            #         recipients.append(future.result())
+                email_csv_report_writer, row, csv_log) for row in query_results]
 
         # Execute function for sending email to all coordinators.
         send_email_to(recipients, csv_log)
@@ -356,7 +350,7 @@ def requests_for_sms_notifications(row: list, params: dict) -> dict:
     return data
 
 
-def email_csv_report_writer(row: list, csv_log: str, month: str, year: int):
+def email_csv_report_writer(row: list, csv_log: str):
     """
     Writes a row in csv report with results of query to DB_NAME database.
     """

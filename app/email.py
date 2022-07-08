@@ -8,13 +8,9 @@ from email.mime.text import MIMEText
 from .config import *
 
 
-def set_text_message():
-    pass
-
-
 def send_email(message: MIMEMultipart):
     """
-    Sends an email to message['To'] recipients with content of message MIMEMultipart input.
+    Sends an email to message['To'] recipients value with content of message MIMEMultipart argument.
     """
     try:
         with smtplib.SMTP(host=SMTP_HOST, port=SMTP_PORT, timeout=10) as conn:
@@ -80,8 +76,7 @@ def set_email_format(recipients=None, filename=None) -> MIMEMultipart:
 
 def send_email_to(recipients: list, filename: str):
     """
-    Sends an e-mail message with the recipients and EMAIL_RECIPIENTS as recipients and inserting the file specified by filename as attachment.
+    Sends an e-mail message with the recipients arguments and EMAIL_RECIPIENTS as recipients and inserting the file specified by filename as attachment.
     """
     message = set_email_format(recipients, filename)
-    # logging.info(f'recipientes: {message["To"]}')
     send_email(message)
