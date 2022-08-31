@@ -15,7 +15,7 @@ from azure.storage.fileshare import (
 def upload_local_file(connection_string: str, local_file_path: str, share_name: str, dest_file_path: str):
     """
     Uploads the file specified by local_file_path to Azure's file share resource with name share_name.
-    A connection_string is required to stablish a connection with  an Azure file share resource through a ShareFileClient object.
+    A connection_string is required to stablish a connection with an Azure file share resource through a ShareFileClient object.
     The dest_file_path argument must point to an existing folder in file share. Otherwise an exception will be throw.
     For more details see the Azure documentation: https://docs.microsoft.com/en-us/azure/storage/files/storage-python-how-to-use-file-storage?tabs=python.
     """

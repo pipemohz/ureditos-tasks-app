@@ -11,3 +11,15 @@
 label.status{
     font-size: 20px;   
 }
+
+div.logo{
+    height: 8rem;
+}
+
+img.logo{
+    height: 100%;
+}
+
+div.grid{
+    display: grid;
+}

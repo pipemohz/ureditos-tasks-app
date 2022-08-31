@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'header.html' %}
+<body>
+    {% block content %}
+    {% endblock %}
+</body>
+    <script src="{{ url_for('static', filename='js/index.js')}}"></script>
+    {% include 'footer.html' %}
+</html>

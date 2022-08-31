@@ -1,6 +1,5 @@
 from flask import Flask, redirect, render_template, url_for, session
-from .test import server_is_up
-from .modules import enrolling_moodle, send_sms_notifications, send_email_notifications
+from .test import is_server_up
 import logging
 from datetime import datetime
 from .config import SECRET_KEY
@@ -8,14 +7,14 @@ from .config import SECRET_KEY
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
-server_status = server_is_up()
 year = datetime.today().year
 
 
 @app.route('/')
 @app.route('/index', methods=['GET'])
 def index():
-    return render_template('index.html', status=server_status, tasks=session, year=year)
+    server_up = is_server_up()
+    return render_template('index.html', server_up=server_up, tasks=session, year=year)
 
 
 @app.route('/about')
@@ -23,27 +22,46 @@ def about():
     return render_template('about.html', year=year)
 
 
-@app.route('/moodle', methods=['POST'])
-def moodle():
+@app.route('/moodle/<string:mode>', methods=['POST'])
+def moodle(mode):
     logging.info('Execution of moodle module')
+    if mode == 'commercial':
+        from .commercial import enrolling_moodle
+        session[f'{mode}_moodle'] = 'done'
+
+    else:
+        from .service import enrolling_moodle
+        session[f'{mode}_moodle'] = 'done'
+
     enrolling_moodle()
-    session['moodle'] = 'done'
     return redirect(url_for('index'))
 
 
-@app.route('/mail', methods=['POST'])
-def mail():
+@app.route('/mail/<string:mode>', methods=['POST'])
+def mail(mode):
     logging.info('execute mail module.')
+    if mode == 'commercial':
+        from .commercial import send_email_notifications
+        session[f'{mode}_email'] = 'done'
+    else:
+        from .service import send_email_notifications
+        session[f'{mode}_email'] = 'done'
+
     send_email_notifications()
-    session['email'] = 'done'
     return redirect(url_for('index'))
 
 
-@app.route('/sms', methods=['POST'])
-def sms():
+@app.route('/sms/<string:mode>', methods=['POST'])
+def sms(mode):
     logging.info('Execution of sms module')
+    if mode == 'commercial':
+        from .commercial import send_sms_notifications
+        session[f'{mode}_sms'] = 'done'
+    else:
+        from .service import send_sms_notifications
+        session[f'{mode}_sms'] = 'done'
+
     send_sms_notifications()
-    session['sms'] = 'done'
     return redirect(url_for('index'))
 
 

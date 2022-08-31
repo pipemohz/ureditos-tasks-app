@@ -5,7 +5,29 @@ import os
 load_dotenv()
 
 # Table names
-TABLA_CONSOLIDADO = "TblReporteConsolidadoUnicosZona"
+TABLA_INDICADORES_SERVICIO = "TblReporteConsolidadoUnicosZona"
+TABLA_INDICADORES_COMERCIALES = "TblReporteConsolidadoUreditosFase2"
+
+# Email text templates
+EMAIL_TEXT_SERVICIO = """Buen día, equipo de coordinador@s regionales. Les estamos enviando la información de las asesoras matriculadas en los cursos de la Universidad Réditos, de acuerdo con los resultados en los indicadores de nivel de servicio del último bimestre. Incluimos información detallada para que puedan realizar la gestión correspondiente. Contamos contigo para movilizarlos y juntos continuemos potencializando sus competencias.
+    
+    Importante: en el archivo adjunto podrán filtrar la Zona para que puedan observar sus asesoras.
+
+    Adicionalmente, les compartimos a continuación un link del tablero que contiene el detalle de los indicadores por asesora:
+
+    https://app.powerbi.com/links/qIoXgLdInx?ctid=d6a2ecba-dd2a-4f0c-a632-6798e31995bb&pbi_source=linkShare&bookmarkGuid=a76f592e-47c5-4da3-ba1a-a5e70c69369a
+    
+    Nota: En el tablero pueden seleccionar la pestaña "HV Vendedor" y luego pueden buscar la cédula de cada colaborador para ver el resultado de sus indicadores. El filtro de fecha debe tener seleccionado el Año-Mes que desean consultar.
+    
+    En la Universidad Réditos contamos contigo para que juntos disfrutemos aprendiendo."""
+
+EMAIL_TEXT_COMERCIALES = """Buen día, equipo de coordinador@s regionales. Les estamos enviando la información de las asesoras matriculadas en los cursos de la Universidad Réditos, de acuerdo con sus resultados en los Indicadores Comerciales del último mes. Incluimos información detallada para que puedan realizar la gestión correspondiente. Contamos contigo para movilizarlos y juntos continuemos potencializando sus competencias.
+    
+    Importante: en el archivo adjunto podrán filtrar la Zona para que puedan observar sus asesoras.
+
+    Adicionalmente, les recordamos que en los tableros de Termómetro podrán consultar el detalle de los indicadores comerciales por asesora.
+    
+    En la Universidad Réditos contamos contigo para que juntos disfrutemos aprendiendo."""
 
 # Months dict for locale month name
 MONTHS = {

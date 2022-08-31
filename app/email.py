@@ -10,7 +10,10 @@ from .config import *
 
 def send_email(message: MIMEMultipart):
     """
-    Sends an email to message['To'] recipients value with content of message MIMEMultipart argument.
+    Sends an email with content of message MIMEMultipart object.
+    ### Parameters
+    `message: MIMEMultipart`
+        An object of MIMEMultipart class. The function uses message['To'] value as the recipients to send email and message['From'] value as the sender.
     """
     try:
         with smtplib.SMTP(host=SMTP_HOST, port=SMTP_PORT, timeout=10) as conn:
@@ -26,24 +29,25 @@ def send_email(message: MIMEMultipart):
         logging.info('The email notifications were sent successfully.')
 
 
-def set_email_format(recipients=None, filename=None) -> MIMEMultipart:
+def set_email_format(text: str, recipients=None, filename=None) -> MIMEMultipart:
     """
-    Sets format of an e-mail message with the recipients and EMAIL_RECIPIENTS as recipients and inserting the file specified by filename as attachment.
-    If recipients is None, the message will only include the recipients in environment variable EMAIL_RECIPIENTS.
-    If filename is None, no file will be inserted as an attachment. 
+    Sets format of an RFC email message with `recipients` and `EMAIL_RECIPIENTS` as recipients, `text` as text message and inserting the file specified by `filename` as attachment.
+    If `recipients` is `None`, the message will only include the recipients in environment variable `EMAIL_RECIPIENTS`.
+    If `filename` is `None`, no file will be inserted as an attachment. 
+
+    ### Parameters
+    `text: str`
+        Text of message.
+    `recipients: list | None`
+        List of recipients to send message.
+    `filename: str | None`
+        Path to the file to attach in message.
+
+    ### Returns
+    `MIMEMultipart`
+        MIMEMultipart object which represents a RFC formatted email message.
     """
     msg = MIMEMultipart()
-    text = """Buen día, equipo de coordinador@s regionales. Les estamos enviando la información de las asesoras matriculadas en los cursos de la Universidad Réditos, de acuerdo con los resultados en los indicadores de nivel de servicio del último bimestre. Incluimos información detallada para que puedan realizar la gestión correspondiente. Contamos contigo para movilizarlos y juntos continuemos potencializando sus competencias.
-    
-    Importante: en el archivo adjunto podrán filtrar la Zona para que puedan observar sus asesoras.
-
-    Adicionalmente, les compartimos a continuación un link del tablero que contiene el detalle de los indicadores por asesora:
-
-    https://app.powerbi.com/links/qIoXgLdInx?ctid=d6a2ecba-dd2a-4f0c-a632-6798e31995bb&pbi_source=linkShare&bookmarkGuid=a76f592e-47c5-4da3-ba1a-a5e70c69369a
-    
-    Nota: En el tablero pueden seleccionar la pestaña "HV Vendedor" y luego pueden buscar la cédula de cada colaborador para ver el resultado de sus indicadores. El filtro de fecha debe tener seleccionado el Año-Mes que desean consultar.
-    
-    En la Universidad Réditos contamos contigo para que juntos disfrutemos aprendiendo."""
 
     # Setting of the email message
     msg_to = EMAIL_RECIPIENTS.split(',')
@@ -74,9 +78,18 @@ def set_email_format(recipients=None, filename=None) -> MIMEMultipart:
     return msg
 
 
-def send_email_to(recipients: list, filename: str):
+def send_email_to(recipients: list, filename: str, text=EMAIL_TEXT_SERVICIO):
     """
-    Sends an e-mail message with the recipients arguments and EMAIL_RECIPIENTS as recipients and inserting the file specified by filename as attachment.
+    Sends an email message with `recipients` and EMAIL_RECIPIENTS as recipients and inserting the file specified by `filename` as attachment.
+
+    ### Parameters
+    `recipients: list`
+        List of recipients to send email.
+    `filename: str`
+        Path to the file to attach to email message.
+    `text: str`
+        Text of email message. By default, text = EMAIL_TEXT_SERVICIO.
+
     """
-    message = set_email_format(recipients, filename)
+    message = set_email_format(text, recipients, filename)
     send_email(message)

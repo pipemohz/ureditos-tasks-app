@@ -1,51 +1,154 @@
-{% include "header.html" %}
-<script src="{{ url_for('static', filename='js/index.js')}}"></script>
-<div>
-    <div class="container px-4 py-5" id="featured-3">
-        <h2 class="pb-2 border-bottom">Tareas Ureditos</h2>
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" {% if not status %} style="opacity: 0.5;" {% endif %}>
-            <div class="feature col">
-                <h2>Inscribir en Moodle</h2>
-                <p>Ejecuta la inscripción de todos los asesores en cursos de universidad Reditos.</p>
-                <form action="{{ url_for('moodle') }}" method="post" class="app-form" onsubmit="disableForm(this)">
-                    <input type="submit" class="btn btn-primary" name="moodle" value="Ejecutar" {% if not status %} disabled {% endif %}>
-                    {% if tasks.moodle == 'done' %}
-                    <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
-                    {% else %}
-                    <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
-                    {% endif %}
-                </form>
-            </div>
-            <div class="feature col">
-                <h2>Notificación SMS</h2>
-                <p>Envia notificación por SMS a todos los asesores inscritos en cursos de universidad Reditos.</p>
-                <form action="{{ url_for('sms') }}" method="post" class="app-form" onsubmit="disableForm(this)">
-                    <input type="submit" class="btn btn-primary" name="sms" value="Ejecutar" {% if not status %} disabled {% endif %}>
-                    {% if tasks.sms == 'done' %}
-                    <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
-                    {% else %}
-                    <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
-                    {% endif %}
-                </form>
-            </div>
-            <div class="feature col">
-                <h2>Notificación por email</h2>
-                <p>Envia notificación por correo electrónico a todos los coordinadores por zona con el reporte global de asesores matriculados.</p>
-                <form action="{{ url_for('mail') }}" method="post" class="app-form" onsubmit="disableForm(this)">
-                    <input type="submit" class="btn btn-primary" name="mail" value="Ejecutar" {% if not status %} disabled {% endif %}>
-                    {% if tasks.email == 'done' %}
-                    <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
-                    {% else %}
-                    <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
-                    {% endif %}
-                </form>
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="container px-4 py-5 text-center">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Universidad Inteligente</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col logo">
+            <img src="{{ url_for('static', filename='img/LogoGANA.png')}}" alt="" class="logo">
+        </div>
+    </div>
+</div>
+<div class="container">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#service-tab-pane"
+                type="button" role="tab" aria-controls="service-tab-pane" aria-selected="true">Servicio</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#commercial-tab-pane"
+                type="button" role="tab" aria-controls="commercial-tab-pane" aria-selected="false">Comercial</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="service-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+            tabindex="0">
+            <div class="container px-4 py-5" id="service">
+                <div class="row">
+                    <h2 class="pb-2 border-bottom">Tareas por indicadores de servicio</h2>
+                </div>
+                <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" {% if not server_up %} style="opacity: 0.5;" {% endif
+                    %}>
+                    <div class="col text-center grid">
+                        <h3>Inscribir en Moodle</h3>
+                        <p>Ejecuta la inscripción de todos los asesores en cursos de universidad Reditos.</p>
+                        <form action="{{ url_for('moodle', mode='service') }}" method="post" class="app-form"
+                            onsubmit="disableForm(this)">
+                            <input type="submit" class="btn btn-success" name="moodle" value="Ejecutar" {% if not
+                                server_up %} disabled {% endif %}>
+                            {% if tasks.service_moodle == 'done' %}
+                            <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                            {% else %}
+                            <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                    <div class="col text-center grid">
+                        <h3>Notificación SMS</h3>
+                        <p>Envia notificación por SMS a todos los asesores inscritos en cursos de universidad Reditos.
+                        </p>
+                        <form action="{{ url_for('sms', mode='service') }}" method="post" class="app-form"
+                            onsubmit="disableForm(this)">
+                            <input type="submit" class="btn btn-success" name="sms" value="Ejecutar" {% if not server_up
+                                %} disabled {% endif %}>
+                            {% if tasks.service_sms == 'done' %}
+                            <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                            {% else %}
+                            <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                    <div class="col text-center grid">
+                        <h3>Notificación por email</h3>
+                        <p>Envia notificación por correo electrónico a todos los coordinadores por zona con el reporte
+                            global de asesores matriculados.</p>
+                        <form action="{{ url_for('mail', mode='service') }}" method="post" class="app-form"
+                            onsubmit="disableForm(this)">
+                            <input type="submit" class="btn btn-success" name="mail" value="Ejecutar" {% if not
+                                server_up %} disabled {% endif %}>
+                            {% if tasks.service_email == 'done' %}
+                            <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                            {% else %}
+                            <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-        {% if status %}
-            <h3 class="pb-2 status" style="color:green">Servidor ureditos activo</h3>
+        <div class="tab-pane fade" id="commercial-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="container px-4 py-5" id="commercial">
+                <div class="row">
+                    <h2 class="pb-2 border-bottom">Tareas por indicadores comerciales</h2>
+                </div>
+                <div class="row g-4 py-5 row-cols-1 row-cols-lg-3" {% if not server_up %} style="opacity: 0.5;" {% endif
+                    %}>
+                    <div class="col text-center grid">
+                        <h3>Inscribir en Moodle</h3>
+                        <p>Ejecuta la inscripción de todos los asesores en cursos de universidad Reditos.</p>
+                        <form action="{{ url_for('moodle', mode='commercial') }}" method="post" class="app-form"
+                            onsubmit="disableForm(this)">
+                            <input type="submit" class="btn btn-success" name="moodle" value="Ejecutar" {% if not
+                                server_up %} disabled {% endif %}>
+                            {% if tasks.commercial_moodle == 'done' %}
+                            <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                            {% else %}
+                            <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                    <div class="col text-center grid">
+                        <h3>Notificación SMS</h3>
+                        <p>Envia notificación por SMS a todos los asesores inscritos en cursos de universidad Reditos.
+                        </p>
+                        <form action="{{ url_for('sms', mode='commercial') }}" method="post" class="app-form"
+                            onsubmit="disableForm(this)">
+                            <input type="submit" class="btn btn-success" name="sms" value="Ejecutar" {% if not server_up
+                                %} disabled {% endif %}>
+                            {% if tasks.commercial_sms == 'done' %}
+                            <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                            {% else %}
+                            <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                    <div class="col text-center grid">
+                        <h3>Notificación por email</h3>
+                        <p>Envia notificación por correo electrónico a todos los coordinadores por zona con el reporte
+                            global de asesores matriculados.</p>
+                        <form action="{{ url_for('mail', mode='commercial') }}" method="post" class="app-form"
+                            onsubmit="disableForm(this)">
+                            <input type="submit" class="btn btn-success" name="mail" value="Ejecutar" {% if not
+                                server_up %} disabled {% endif %}>
+                            {% if tasks.commercial_email == 'done' %}
+                            <label class="status" style="font-family: sans-serif;color: #008000">Hecho</label>
+                            {% else %}
+                            <label class="status" style="font-family: sans-serif;color: #0d6efd">Pendiente</label>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if server_up %}
+        <h3 class="pb-2 status" style="color:green">Servidor ureditos activo</h3>
         {% else %}
-            <h3 class="pb-2 status" style="color:red">Servidor ureditos inactivo</h3>
+        <h3 class="pb-2 status" style="color:red">Servidor ureditos inactivo</h3>
         {% endif %}
     </div>
 </div>
-{% include "footer.html" %}
+
+
+
+<!-- {% if server_up %}
+        <h3 class="pb-2 status" style="color:green">Servidor ureditos activo</h3>
+    {% else %}
+        <h3 class="pb-2 status" style="color:red">Servidor ureditos inactivo</h3>
+    {% endif %} -->
+
+{% endblock %}

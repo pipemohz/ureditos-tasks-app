@@ -2,7 +2,7 @@ import requests
 from .config import URL_API_UREDITOS, API_UREDITOS_TOKEN
 
 
-def server_is_up() -> bool:
+def is_server_up() -> bool:
     """
     Executes a connection test on URL_API_REDITOS. If the server is up returns True, else returns False.
     """
